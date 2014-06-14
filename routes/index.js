@@ -101,7 +101,7 @@ function getData(done) {
       var carData = uglyData[0];
 
       var tmp = Object.keys(carData);
-      for(var i = 1; i< tmp.length; i++) {
+      for(var i = 0; i< tmp.length; i++) {
         var car = carData[tmp[i]];
 
         var pilot = car[5] == '' ? null : staticData.tabPilotes[car[5]];
