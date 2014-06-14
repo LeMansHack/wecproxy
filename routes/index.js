@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
 
       // First object is global data
       var globalData = uglyData[1];
-      //var weatherData = globalData[10][0];
+      var weatherData = globalData[11][0];
       
       var track = {
         localTime: globalData[0],
@@ -27,20 +27,20 @@ router.get('/', function(req, res) {
         safetyCar: globalData[2] == 1,
         qualify: globalData[3] == 1,
         elapsedTime: globalData[4],
-        remainingTime: globalData[5],
-        notification: globalData[7],
-        logo: globalData[8],
-        // weather: {
-        //   airTemp: weatherData[0],
-        //   roadTemp: weatherData[1],
-        //   humidity: weatherData[2],
-        //   airPreassure: weatherData[3],
-        //   windSpeed: weatherData[4],
-        //   windDirection: weatherData[5],
-        //   weatherType: weatherData[6],
-        //   weatherIcon: weatherData[8]
-        // },
-        isDay: globalData[11]
+        remainingTime: globalData[7],
+        //notification: globalData[8],
+        logo: globalData[5],
+        weather: {
+          airTemp: weatherData[0],
+          roadTemp: weatherData[1],
+          humidity: weatherData[2],
+          airPreassure: weatherData[3],
+          windSpeed: weatherData[4],
+          windDirection: weatherData[5],
+          weatherType: weatherData[6],
+          weatherIcon: weatherData[8]
+        },
+        isDay: globalData[12]
       };
       var cars = [];
       var carData = uglyData[0];
