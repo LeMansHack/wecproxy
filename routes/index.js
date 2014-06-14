@@ -5,6 +5,8 @@ var moment = require('moment');
 var staticData = require('./../vendor/fiawec');
 
 
+var fakeFlagStatus = "1";
+
 var lastRequest = 0;
 var lastResponse = "";
 /* GET home page. */
@@ -16,8 +18,27 @@ router.get('/', function(req, res) {
 
 });
 
+router.get('/setflagstatus/:status', function(req, res) {
+  fakeFlagStatus = req.query.status;
+
+  res.send("Set");
+});
+
+router.get('/deleteflagstatus', function(req, res) {
+  fakeFlagStatus = null;
+
+  res.send("Deleted");
+});
+
+
 router.get('/flagstatus', function(req, res) {
   getData(function(data) {
+    
+    if(fakeFlagStatus) {
+      res.send(fakeFlagStatus);
+      return;
+    }
+
     res.set('Content-Type', 'text/plain');
     if(data.track.flag == 1 || data.track.safetyCar == 1) {
       res.send("1");      
