@@ -22,23 +22,23 @@ router.get('/', function(req, res) {
       var weatherData = globalData[11][0];
       
       var track = {
-        localTime: globalData[0],
+        localTime: globalData[3],
         flag: globalData[6],
-        safetyCar: globalData[2] == 1,
-        qualify: globalData[3] == 1,
+        safetyCar: globalData[9] == 1,
+        qualify: globalData[1] == 1,
         elapsedTimeInSeconds: parseTime(globalData[4]),
         remainingTimeInSeconds: parseTime(globalData[7]),
         //notification: globalData[8],
         logo: globalData[5],
         weather: {
-          airTemp: weatherData[0],
-          roadTemp: weatherData[1],
+          airTemp: weatherData[3],
+          roadTemp: weatherData[6],
           humidity: weatherData[2],
-          airPreassure: weatherData[3],
-          windSpeed: weatherData[4],
-          windDirection: weatherData[5],
-          weatherType: weatherData[6],
-          weatherIcon: weatherData[8]
+          airPreassure: weatherData[5],
+          windSpeed: weatherData[8],
+          windDirection: weatherData[0],
+          weatherType: weatherData[1],
+          weatherIcon: weatherData[7]
         },
         isDay: globalData[12]
       };
