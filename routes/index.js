@@ -78,6 +78,8 @@ function getData(done) {
         flag: globalData[6],
         safetyCar: globalData[9] == 1,
         qualify: globalData[1] == 1,
+        elapsedTime: globalData[4],
+        remainingTime: globalData[7],
         elapsedTimeInSeconds: parseTime(globalData[4]),
         remainingTimeInSeconds: parseTime(globalData[7]),
         notification: globalData[2],
