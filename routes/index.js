@@ -23,11 +23,11 @@ router.get('/', function(req, res) {
       
       var track = {
         localTime: globalData[0],
-        flag: globalData[1],
+        flag: globalData[6],
         safetyCar: globalData[2] == 1,
         qualify: globalData[3] == 1,
-        elapsedTime: globalData[4],
-        remainingTime: globalData[7],
+        elapsedTimeInSecounds: parseTime(globalData[4]),
+        remainingTimeInSecounds: parseTime(globalData[7]),
         //notification: globalData[8],
         logo: globalData[5],
         weather: {
@@ -78,5 +78,14 @@ router.get('/', function(req, res) {
   });
 
 });
+
+function parseTime(str) {
+  var tokens = str.split(":");
+  var hours = parseInt(tokens[0].replace(" ", ""));
+  var min = parseInt(tokens[1].replace(" ", ""));
+  var sec = parseInt(tokens[2].replace(" ", ""));
+
+  return parseInt(sec + min*60 + hours*60*60);
+}
 
 module.exports = router;
