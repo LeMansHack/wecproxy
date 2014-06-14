@@ -26,8 +26,8 @@ router.get('/', function(req, res) {
         flag: globalData[6],
         safetyCar: globalData[2] == 1,
         qualify: globalData[3] == 1,
-        elapsedTimeInSecounds: parseTime(globalData[4]),
-        remainingTimeInSecounds: parseTime(globalData[7]),
+        elapsedTimeInSeconds: parseTime(globalData[4]),
+        remainingTimeInSeconds: parseTime(globalData[7]),
         //notification: globalData[8],
         logo: globalData[5],
         weather: {
