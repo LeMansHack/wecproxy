@@ -5,7 +5,7 @@ var moment = require('moment');
 var staticData = require('./../vendor/fiawec');
 
 
-var fakeFlagStatus = "1";
+var fakeFlagStatus = null;
 
 var lastRequest = 0;
 var lastResponse = "";
@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/setflagstatus/:status', function(req, res) {
-  fakeFlagStatus = req.query.status;
+  fakeFlagStatus = req.params.status;
 
   res.send("Set");
 });
