@@ -18,7 +18,12 @@ router.get('/', function(req, res) {
 
 router.get('/flagstatus', function(req, res) {
   getData(function(data) {
-    res.json(data.track.flag);
+    res.set('Content-Type', 'text/plain');
+    if(data.track.flag == 1 || data.track.safetyCar == 1) {
+      res.send("1");      
+    } else {
+      res.send("0");
+    }
   });
 });
 
