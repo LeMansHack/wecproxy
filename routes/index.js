@@ -22,7 +22,7 @@ router.get('/', function(req, res) {
       var weatherData = globalData[11][0];
       
       var track = {
-        localTime: globalData[3],
+        localTime: moment(globalData[3], "HH:mm"),
         flag: globalData[6],
         safetyCar: globalData[9] == 1,
         qualify: globalData[1] == 1,
