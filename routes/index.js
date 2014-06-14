@@ -5,14 +5,24 @@ var moment = require('moment');
 var staticData = require('./../vendor/fiawec');
 
 
+var lastRequest = 0;
+var lastResponse = "";
 /* GET home page. */
 router.get('/', function(req, res) {
   
+  var ticks = new Date().getTime();
+
+  if(ticks - lastRequest < 10000) {
+    lastResponse.fresh = false;
+    res.json(lastResponse);
+    return;
+  }
+  lastRequest = ticks;
 
   client = new Client();
 
   // direct way
-  client.get("http://live.fiawec.com/proxy.php?file=1/live/data.js&t=" + new Date().getTime(), function(data, response){
+  client.get("http://live.fiawec.com/proxy.php?file=1/live/data.js&t=" + ticks, function(data, response){
 
       // parsed response body as js object
       var uglyData = JSON.parse(data);
@@ -83,10 +93,14 @@ router.get('/', function(req, res) {
         });
       }
 
-      res.json({
+      lastResponse = {
         track: track,
-        cars: cars
-      })
+        cars: cars,
+        fresh: true,
+        ticks: ticks
+      };
+
+      res.json(lastResponse);
 
   });
 
