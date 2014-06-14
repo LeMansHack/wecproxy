@@ -31,14 +31,15 @@ router.get('/', function(req, res) {
         //notification: globalData[8],
         logo: globalData[5],
         weather: {
-          airTemp: weatherData[3],
-          roadTemp: weatherData[6],
-          humidity: weatherData[2],
-          airPreassure: weatherData[5],
-          windSpeed: weatherData[8],
-          windDirection: weatherData[0],
+          airTemp: parseFloat(weatherData[3]),
+          roadTemp: parseFloat(weatherData[6]),
+          humidity: parseFloat(weatherData[2]),
+          airPreassure: parseFloat(weatherData[5]),
+          windSpeed: parseFloat(weatherData[8]),
+          windDirection: parseFloat(weatherData[0]),
           weatherType: weatherData[1],
-          weatherIcon: weatherData[7]
+          weatherIcon: weatherData[7],
+          weatherIconUrl: "http://live.fiawec.com/_include/wec/images/meteo/"+weatherData[7]+".png"
         },
         isDay: globalData[12]
       };
@@ -64,12 +65,12 @@ router.get('/', function(req, res) {
             twitter: pilot.twitter
           },
           driverStatus: car[9],
-          laps: car[13],
+          laps: parseInt(car[13]),
           time: car[0],
           timeDifference: car[4],
           bestTime: car[8],
           lastTime: car[12],
-          nbStands: car[16],
+          pits: car[16],
           angSpeed: car[1],
           team: team,
           tires: car[6],
