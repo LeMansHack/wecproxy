@@ -10,13 +10,16 @@ var lastResponse = "";
 /* GET home page. */
 router.get('/', function(req, res) {
   
+  // We need to find out when we last requested the resource
   var ticks = new Date().getTime();
-
   if(ticks - lastRequest < 10000) {
+    // We will just use the cache
     lastResponse.fresh = false;
     res.json(lastResponse);
     return;
   }
+  
+  // We will make a new request. Take note of the time
   lastRequest = ticks;
 
   client = new Client();
@@ -97,7 +100,7 @@ router.get('/', function(req, res) {
         track: track,
         cars: cars,
         fresh: true,
-        ticks: ticks
+        ticks: ticks    
       };
 
       res.json(lastResponse);
