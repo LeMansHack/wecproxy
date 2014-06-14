@@ -28,7 +28,7 @@ router.get('/', function(req, res) {
         qualify: globalData[1] == 1,
         elapsedTimeInSeconds: parseTime(globalData[4]),
         remainingTimeInSeconds: parseTime(globalData[7]),
-        //notification: globalData[8],
+        notification: globalData[2],
         logo: globalData[5],
         weather: {
           airTemp: parseFloat(weatherData[3]),
