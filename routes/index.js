@@ -64,7 +64,7 @@ router.get('/', function(req, res) {
         var car = carData[tmp[i]];
 
         var pilot = car[5] == '' ? null : staticData.tabPilotes[car[5]];
-        var team = car[2] == '' ? null : staticData.tabTeams[car[2]];
+        var extraData = getExtraData(car[2]);
 
         cars.push({
           pilot: pilot == null ? null : {
@@ -84,15 +84,19 @@ router.get('/', function(req, res) {
           bestTimeInMiliseconds: parseLapTime(car[8]),
           lastTimeInMiliseconds: parseLapTime(car[12]),
           pits: parseInt(car[16]),
-          angSpeed: parseFloat(car[1]),
-          team: team,
+          averageSpeed: parseFloat(car[1]),
           tires: car[6],
           wec: car[10],
           d1l1: car[14],
           d1l2: car[3],
           d2l1: car[7],
           d2l2: car[11],
-          avg: car[15]
+          avg: car[15],
+          team: extraData.team,
+          number: extraData.number,
+          category: extraData.category,
+          carBrand: extraData.carBrand,
+          carName: extraData.carName
         });
       }
 
@@ -126,6 +130,23 @@ function parseLapTime(str) {
   var mil = parseInt(tokens2[1].replace(" ", ""));
 
   return parseInt(mil + sec*1000 + min*60*1000);
+}
+
+function getExtraData(id) {
+  if(id == null)
+    return {};
+  var engageData = staticData.tabEngages[id];
+  var teamData = staticData.tabTeams[engageData.team];
+  var carData =  staticData.tabVehicules[engageData.voiture];
+  var brand = staticData.tabMarques[carData.marque];
+  var categoryData = staticData.tabCategories[engageData.categorie];
+  return {
+    team: teamData.nom,
+    number: engageData.num,
+    category: categoryData.nom,
+    carBrand: brand,
+    carName: carData.nom
+  }
 }
 
 module.exports = router;
