@@ -48,25 +48,37 @@ router.get('/', function(req, res) {
       var tmp = Object.keys(carData);
       for(var i = 1; i< tmp.length; i++) {
         var car = carData[tmp[i]];
-        
+
+        var pilot = car[5] == '' ? null : staticData.tabPilotes[car[5]];
+        var team = car[2] == '' ? null : staticData.tabTeams[car[2]];
+
         cars.push({
-          pilot: car[0] == '' ? null : staticData.tabPilotes[car[0]],
-          driverStatus: car[1],
-          laps: car[2],
-          time: car[3],
+          pilot: pilot == null ? null : {
+            lastName: pilot.prenom,
+            firstName: pilot.nom,
+            country: staticData.tabPays[pilot.pays].en,
+            birthday: pilot.birth,
+            picture: "http://live.fiawec.com/wpphpFichiers/1/pilote/"+car[5]+"/" + pilot.pic,
+            site: pilot.site,
+            facebook: pilot.facebook,
+            twitter: pilot.twitter
+          },
+          driverStatus: car[9],
+          laps: car[13],
+          time: car[0],
           timeDifference: car[4],
-          bestTime: car[5],
-          lastTime: car[6],
-          nbStands: car[7],
-          angSpeed: car[8],
-          team: car[9] == '' ? null: staticData.tabTeams[car[9]],
-          tires: car[10],
-          wec: car[11],
-          d1l1: car[12],
-          d1l2: car[13],
-          d2l1: car[14],
-          d2l2: car[15],
-          avg: car[16]
+          bestTime: car[8],
+          lastTime: car[12],
+          nbStands: car[16],
+          angSpeed: car[1],
+          team: team,
+          tires: car[6],
+          wec: car[10],
+          d1l1: car[14],
+          d1l2: car[3],
+          d2l1: car[7],
+          d2l2: car[11],
+          avg: car[15]
         });
       }
 
