@@ -68,10 +68,10 @@ router.get('/', function(req, res) {
           laps: parseInt(car[13]),
           time: car[0],
           timeDifference: car[4],
-          bestTime: car[8],
-          lastTime: car[12],
-          pits: car[16],
-          angSpeed: car[1],
+          bestTimeInMiliseconds: parseLapTime(car[8]),
+          lastTimeInMiliseconds: parseLapTime(car[12]),
+          pits: parseInt(car[16]),
+          angSpeed: parseFloat(car[1]),
           team: team,
           tires: car[6],
           wec: car[10],
@@ -99,6 +99,16 @@ function parseTime(str) {
   var sec = parseInt(tokens[2].replace(" ", ""));
 
   return parseInt(sec + min*60 + hours*60*60);
+}
+
+function parseLapTime(str) {
+  var tokens1 = str.split(":");
+  var min = parseInt(tokens1[0].replace(" ", ""));
+  var tokens2 = str.split(".");
+  var sec = parseInt(tokens2[0].replace(" ", ""));
+  var mil = parseInt(tokens2[1].replace(" ", ""));
+
+  return parseInt(mil + sec*1000 + min*60*1000);
 }
 
 module.exports = router;
