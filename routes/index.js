@@ -10,12 +10,25 @@ var lastResponse = "";
 /* GET home page. */
 router.get('/', function(req, res) {
   
+  getData(function(data) {
+    res.json(data);
+  });
+
+});
+
+router.get('/flagstatus', function(req, res) {
+  getData(function(data) {
+    res.json(data.track.flag);
+  });
+});
+
+function getData(done) {
   // We need to find out when we last requested the resource
   var ticks = new Date().getTime();
   if(ticks - lastRequest < 10000) {
     // We will just use the cache
     lastResponse.fresh = false;
-    res.json(lastResponse);
+    done(lastResponse);
     return;
   }
   
@@ -107,11 +120,10 @@ router.get('/', function(req, res) {
         ticks: ticks    
       };
 
-      res.json(lastResponse);
+      done(lastResponse);
 
   });
-
-});
+}
 
 function parseTime(str) {
   var tokens = str.split(":");
