@@ -165,9 +165,14 @@ function parseTime(str) {
 function parseLapTime(str) {
   var tokens1 = str.split(":");
   var min = parseInt(tokens1[0].replace(" ", ""));
-  var tokens2 = str.split(".");
-  var sec = parseInt(tokens2[0].replace(" ", ""));
-  var mil = parseInt(tokens2[1].replace(" ", ""));
+  var sec = 0;
+  var mil = 0;
+
+  var tokens2 = tokens1[1].split(".");
+  sec = parseInt(tokens2[0].replace(" ", ""));
+  if(tokens2.length == 2) {
+    mil = parseInt(tokens2[1].replace(" ", ""));
+  }
 
   return parseInt(mil + sec*1000 + min*60*1000);
 }
