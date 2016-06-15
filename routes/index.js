@@ -64,7 +64,7 @@ function getData(done) {
   client = new Client();
 
   // direct way
-  client.get("http://live.fiawec.com/proxy.php?file=1/live/data.js&t=" + ticks, function(data, response){
+  client.get("http://live.fiawec.com/wpphpFichiers/1/live/FIAWEC/data.js?t=" + ticks, function(data, response){
 
       // parsed response body as js object
       var uglyData = JSON.parse(data);
@@ -163,6 +163,10 @@ function parseTime(str) {
 }
 
 function parseLapTime(str) {
+  if(!str) {
+    return 0;
+  }
+
   var tokens1 = str.split(":");
   var min = parseInt(tokens1[0].replace(" ", ""));
   var sec = 0;
@@ -180,7 +184,12 @@ function parseLapTime(str) {
 function getExtraData(id) {
   if(id == null)
     return {};
+
   var engageData = staticData.tabEngages[id];
+  if(!engageData) {
+    return {}
+  }
+
   var teamData = staticData.tabTeams[engageData.team];
   var carData =  staticData.tabVehicules[engageData.voiture];
   var brand = staticData.tabMarques[carData.marque];
