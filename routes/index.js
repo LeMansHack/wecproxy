@@ -120,7 +120,7 @@ function getData(done) {
             facebook: '',
             twitter: ''
           },
-          driverStatus: car.state,
+          driverStatus: getDriverState(car.state),
           laps: parseInt(car.lap),
           time: car.lastPassingTime,
           timeDifference: car.gap,
@@ -191,6 +191,23 @@ function parseLapTime(str) {
   }
 
   return parseInt(mil + sec*1000 + min*60*1000);
+}
+
+function getDriverState(status) {
+  switch(status) {
+      case "In":
+        return 4;
+        break;
+      case "Out":
+        return 3;
+        break;
+      case "Run":
+        return 2;
+          break;
+      default:
+        return 0;
+        break;
+  }
 }
 
 module.exports = router;
