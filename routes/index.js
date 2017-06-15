@@ -216,7 +216,7 @@ function getRaceState(state) {
         return 2;
       case "red":
         return 3;
-      case "checked":
+      case "Chk":
         return 4;
       case "yellow":
         return 5;
