@@ -64,8 +64,7 @@ function getData(done) {
   client = new Client();
 
   // direct way
-  client.get("http://www.fiawec.com/ecm/live/WEC/data.json?_=" + ticks, function(data, response){
-
+  client.get("http://www.fiawec.com/ecm/live/WEC/__data.json?_=" + ticks, function(data, response){
       // parsed response body as js object
       var params = JSON.parse(data.params);
       var entries = JSON.parse(data.entries);
@@ -76,7 +75,8 @@ function getData(done) {
       
       var track = {
         localTime: parseInt(params.timestamp),
-        flag: params.racestate,
+        flag: getRaceState(params.racestate),
+        raceState: params.racestate,
         safetyCar: (params.safetycar === "true"),
         qualify: null,
         elapsedTime: null,
@@ -207,6 +207,23 @@ function getDriverState(status) {
       default:
         return 0;
         break;
+  }
+}
+
+function getRaceState(state) {
+  switch (state) {
+      case "green":
+        return 2;
+      case "red":
+        return 3;
+      case "checked":
+        return 4;
+      case "yellow":
+        return 5;
+      case "full-yellow":
+        return 6;
+      default:
+        return 0;
   }
 }
 
