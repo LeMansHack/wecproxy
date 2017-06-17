@@ -61,108 +61,111 @@ function getData(done) {
   // We will make a new request. Take note of the time
   lastRequest = ticks;
 
-  client = new Client();
+  try {
+      var client = new Client();
 
-  // direct way
-  client.get("http://www.fiawec.com/ecm/live/WEC/__data.json?_=" + ticks, function(data, response){
-      // parsed response body as js object
-      var params = JSON.parse(data.params);
-      var entries = JSON.parse(data.entries);
-      var driverResult = JSON.parse(data.driversResult);
-      //console.log(params);
-      //console.log(entries);
-      //console.log(driverResult);
-      
-      var track = {
-        localTime: parseInt(params.timestamp),
-        flag: getRaceState(params.racestate),
-        raceState: params.racestate,
-        safetyCar: (params.safetycar === "true"),
-        qualify: null,
-        elapsedTime: null,
-        remainingTime: null,
-        elapsedTimeInSeconds: params.elapsedTime,
-        remainingTimeInSeconds: params.remaining,
-        notification: null,
-        logo: params.svg,
-        eventName: params.eventName,
-        weather: {
-          airTemp: parseFloat(params.airTemp),
-          roadTemp: parseFloat(params.trackTemp),
-          humidity: parseFloat(params.humidity),
-          airPreassure: parseFloat(params.pressure),
-          windSpeed: parseFloat(params.windSpeed),
-          windDirection: parseFloat(params.windDirection),
-          weatherType: params.weather,
-          weatherIcon: '',
-          weatherIconUrl: ''
-        },
-        isDay: null
-      };
-      var cars = [];
-      var carData = entries;
+      // direct way
+      client.get("http://www.fiawec.com/ecm/live/WEC/__data.json?_=" + ticks, function(data, response){
+          // parsed response body as js object
+          var params = JSON.parse(data.params);
+          var entries = JSON.parse(data.entries);
+          var driverResult = JSON.parse(data.driversResult);
+          //console.log(params);
+          //console.log(entries);
+          //console.log(driverResult);
 
-      var tmp = Object.keys(carData);
-      for(var i = 0; i< tmp.length; i++) {
-        var car = carData[tmp[i]];
+          var track = {
+              localTime: parseInt(params.timestamp),
+              flag: getRaceState(params.racestate),
+              raceState: params.racestate,
+              safetyCar: (params.safetycar === "true"),
+              qualify: null,
+              elapsedTime: null,
+              remainingTime: null,
+              elapsedTimeInSeconds: params.elapsedTime,
+              remainingTimeInSeconds: params.remaining,
+              notification: null,
+              logo: params.svg,
+              eventName: params.eventName,
+              weather: {
+                  airTemp: parseFloat(params.airTemp),
+                  roadTemp: parseFloat(params.trackTemp),
+                  humidity: parseFloat(params.humidity),
+                  airPreassure: parseFloat(params.pressure),
+                  windSpeed: parseFloat(params.windSpeed),
+                  windDirection: parseFloat(params.windDirection),
+                  weatherType: params.weather,
+                  weatherIcon: '',
+                  weatherIconUrl: ''
+              },
+              isDay: null
+          };
+          var cars = [];
+          var carData = entries;
 
-        //var pilot = car[5] == '' ? null : staticData.tabPilotes[car[5]];
-        //var extraData = getExtraData(car[2]);
+          var tmp = Object.keys(carData);
+          for(var i = 0; i< tmp.length; i++) {
+              var car = carData[tmp[i]];
 
-        cars.push({
-          pilot: {
-            lastName: '',
-            firstName: car.driver,
-            country: '',
-            birthday: '',
-            picture: '',
-            site: '',
-            facebook: '',
-            twitter: ''
-          },
-          driverStatus: getDriverState(car.state),
-          laps: parseInt(car.lap),
-          time: car.lastPassingTime,
-          timeDifference: car.gap,
-          bestTimeInMiliseconds: parseLapTime(car.bestlap),
-          lastTimeInMiliseconds: parseLapTime(car.lastlap),
-          pits: car.pitstop,
-          averageSpeed: parseFloat(car.speed),
-          tires: car.tyre,
-          wec: car.isWEC,
-          d1l1: car.d1l1,
-          d1l2: car.d2l1,
-          d2l1: null,
-          d2l2: null,
-          avg: car.av_time,
-          team: car.team,
-          number: car.number,
-          category: car.category,
-          carBrand: '',
-          carName: car.car,
-          position: car.position,
-          ranking: car.ranking,
-          categoryPosition: car.categoryPosition,
-          sector: car.sector,
-          currentSector1: car.currentSector1,
-          currentSector2: car.currentSector2,
-          currentSector3: car.currentSector3,
-          bestSector1: car.bestSector1,
-          bestSector2: car.bestSector2,
-          bestSector3: car.bestSector3
-        });
-      }
+              //var pilot = car[5] == '' ? null : staticData.tabPilotes[car[5]];
+              //var extraData = getExtraData(car[2]);
 
-      lastResponse = {
-        track: track,
-        cars: cars,
-        fresh: true,
-        ticks: ticks    
-      };
+              cars.push({
+                  pilot: {
+                      lastName: '',
+                      firstName: car.driver,
+                      country: '',
+                      birthday: '',
+                      picture: '',
+                      site: '',
+                      facebook: '',
+                      twitter: ''
+                  },
+                  driverStatus: getDriverState(car.state),
+                  laps: parseInt(car.lap),
+                  time: car.lastPassingTime,
+                  timeDifference: car.gap,
+                  bestTimeInMiliseconds: parseLapTime(car.bestlap),
+                  lastTimeInMiliseconds: parseLapTime(car.lastlap),
+                  pits: car.pitstop,
+                  averageSpeed: parseFloat(car.speed),
+                  tires: car.tyre,
+                  wec: car.isWEC,
+                  d1l1: car.d1l1,
+                  d1l2: car.d2l1,
+                  d2l1: null,
+                  d2l2: null,
+                  avg: car.av_time,
+                  team: car.team,
+                  number: car.number,
+                  category: car.category,
+                  carBrand: '',
+                  carName: car.car,
+                  position: car.position,
+                  ranking: car.ranking,
+                  categoryPosition: car.categoryPosition,
+                  sector: car.sector,
+                  currentSector1: car.currentSector1,
+                  currentSector2: car.currentSector2,
+                  currentSector3: car.currentSector3,
+                  bestSector1: car.bestSector1,
+                  bestSector2: car.bestSector2,
+                  bestSector3: car.bestSector3
+              });
+          }
 
+          lastResponse = {
+              track: track,
+              cars: cars,
+              fresh: true,
+              ticks: ticks
+          };
+
+          done(lastResponse);
+      });
+  } catch(e) {
       done(lastResponse);
-
-  });
+  }
 }
 
 function parseTime(str) {
