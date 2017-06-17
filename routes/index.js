@@ -11,11 +11,11 @@ var lastRequest = 0;
 var lastResponse = "";
 /* GET home page. */
 router.get('/', function(req, res) {
-  
   getData(function(data) {
-    res.json(data);
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      res.json(data);
   });
-
 });
 
 router.get('/setflagstatus/:status', function(req, res) {
