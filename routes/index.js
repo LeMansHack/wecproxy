@@ -62,7 +62,7 @@ function getData(done) {
   lastRequest = ticks;
 
       var Promises = [ ];
-      Promises.push(axios.get('http://www.fiawec.com/ecm/live/WEC/__data.json?_=" + ticks'));
+      Promises.push(axios.get('http://fiawec.com/ecm/live/WEC/__data.json?_=" + ticks'));
       Promises.push(axios.get("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22le%20mans%22)%20and%20u%20%3D%20'c'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys"));
 
       Promise.all(Promises).then((resp) => {
