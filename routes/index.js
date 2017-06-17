@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Client = require('node-rest-client').Client;
+var axios = require('axios');
 var moment = require('moment');
 var staticData = require('./../vendor/fiawec');
 
@@ -61,11 +61,16 @@ function getData(done) {
   // We will make a new request. Take note of the time
   lastRequest = ticks;
 
-  try {
-      var client = new Client();
+      var Promises = [ ];
+      Promises.push(axios.get('http://www.fiawec.com/ecm/live/WEC/__data.json?_=" + ticks'));
+      Promises.push(axios.get("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22le%20mans%22)%20and%20u%20%3D%20'c'&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys"));
 
-      // direct way
-      client.get("http://www.fiawec.com/ecm/live/WEC/__data.json?_=" + ticks, function(data, response){
+      Promise.all(Promises).then((resp) => {
+          var data = resp[0].data;
+          var wheather = resp[1].data;
+
+          try {
+          // direct way
           // parsed response body as js object
           var params = JSON.parse(data.params);
           var entries = JSON.parse(data.entries);
@@ -154,7 +159,15 @@ function getData(done) {
               });
           }
 
+          var newLemansData = false;
+          if(lastResponse) {
+              newLemansData = (lastResponse.track.elapsedTimeInSeconds !== track.elapsedTimeInSeconds);
+              console.log('NewLemanData', newLemansData);
+          }
+
           lastResponse = {
+              newLemanData: newLemansData,
+              wheather: wheather,
               track: track,
               cars: cars,
               fresh: true,
@@ -162,10 +175,10 @@ function getData(done) {
           };
 
           done(lastResponse);
-      });
-  } catch(e) {
-      done(lastResponse);
-  }
+        } catch(e) {
+             done(lastResponse);
+        }
+    });
 }
 
 function parseTime(str) {
